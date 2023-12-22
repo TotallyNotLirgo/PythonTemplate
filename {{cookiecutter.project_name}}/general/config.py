@@ -1,6 +1,7 @@
 from functools import lru_cache
 from pydantic_settings import BaseSettings
 
+
 class Config(BaseSettings):
     WELCOME_MESSAGE: str
 
@@ -11,6 +12,7 @@ class Config(BaseSettings):
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+
 
 @lru_cache()
 def get_config() -> Config:

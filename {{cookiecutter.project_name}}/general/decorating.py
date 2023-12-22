@@ -7,5 +7,6 @@ class Color:
     BOLD_RED = "\x1b[31;1m"
     RESET = "\x1b[0m"
 
+
 def colorize(text: str, color: Color) -> str:
     return color + text + Color.RESET
