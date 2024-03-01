@@ -2,6 +2,8 @@ services:
   {{cookiecutter.project_name}}:
     build: .
     container_name: {{cookiecutter.project_name}}-container
+    ports: 
+      - '8080:8080'
     volumes:
       - .:/app
       - /app/.venv

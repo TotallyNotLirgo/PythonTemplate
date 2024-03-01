@@ -4,7 +4,10 @@ from pydantic_settings import BaseSettings
 
 class Config(BaseSettings):
     WELCOME_MESSAGE: str
+    HOST: str
+    PORT: int
 
+    DEV_MODE: bool
     LOG_LEVEL: str
     LOG_FILE: str
     CONSOLE_ENABLED: bool
