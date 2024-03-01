@@ -1,0 +1,8 @@
+services:
+  {{cookiecutter.project_name}}:
+    build: .
+    container_name: {{cookiecutter.project_name}}-container
+    volumes:
+      - .:/app
+      - /app/.venv
+    

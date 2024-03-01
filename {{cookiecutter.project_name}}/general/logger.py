@@ -1,5 +1,18 @@
-from general.decorating import colorize, Color
 import logging
+
+LEVEL_SPACING = 9
+NAME_SPACING = 20
+
+
+class Color:
+    WHITE = "\x1b[37;20m"
+    GRAY = "\x1b[90;20m"
+    GREEN = "\x1b[32;20m"
+    YELLOW = "\x1b[33;20m"
+    RED = "\x1b[31;20m"
+    BOLD_RED = "\x1b[31;1m"
+    RESET = "\x1b[0m"
+
 
 DEBUG_COLORS = {
     'DEBUG': Color.WHITE,
@@ -10,16 +23,18 @@ DEBUG_COLORS = {
 }
 
 
-def format_template(
-        level_format: callable,
-        name_format: callable,
-        record: logging.LogRecord,
-        header: str = ""
-        ):
-    format_string: str
-    level_spacing = " " * (9 - len(record.levelname))
-    name_spacing = " " * (25 - len(record.name))
-    format_string = header
+def colorize(text: str, color: Color) -> str:
+    return color + text + Color.RESET
+
+
+def format_template(level_format: callable,
+                    name_format: callable,
+                    record: logging.LogRecord,
+                    header: str = ""):
+    format_string = ""
+    level_spacing = " " * (LEVEL_SPACING - len(record.levelname))
+    name_spacing = " " * (NAME_SPACING - len(record.name))
+    format_string += header
     format_string += level_format('%(levelname)s') + ':' + level_spacing
     format_string += name_format('%(name)s') + ':' + name_spacing
     format_string += '%(message)s'
@@ -47,16 +62,11 @@ class RegularFormatter(logging.Formatter):
         )
 
 
-def init_logger(
-        level: str | int = "DEBUG",
-        filename: str | None = None,
-        console: bool = True
-        ) -> None:
+def init_logger(level: str | int = "DEBUG",
+                filename: str | None = None,
+                console: bool = True) -> None:
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
-    logging.getLogger('asyncio').setLevel(logging.WARNING)
-    logging.getLogger('asyncssh').setLevel(logging.WARNING)
-    logging.getLogger('multipart.multipart').setLevel(logging.WARNING)
     if console:
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(ColorFormatter())
